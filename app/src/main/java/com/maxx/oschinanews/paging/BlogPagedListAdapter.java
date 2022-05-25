@@ -1,7 +1,6 @@
 package com.maxx.oschinanews.paging;
 
 import android.content.Context;
-import android.graphics.Movie;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -94,7 +93,6 @@ public class BlogPagedListAdapter extends PagedListAdapter<Blog,BlogPagedListAda
             this.commentCount = itemView.findViewById(R.id.comment_count);
             this.type = itemView.findViewById(R.id.type);
             this.uri = itemView.findViewById(R.id.blog_uri);
-
         }
     }
 }

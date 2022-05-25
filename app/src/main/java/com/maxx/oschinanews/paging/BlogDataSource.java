@@ -1,6 +1,5 @@
 package com.maxx.oschinanews.paging;
 
-import android.graphics.Movie;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -16,7 +15,7 @@ import retrofit2.Response;
 
 public class BlogDataSource extends PageKeyedDataSource<Integer, Blog> {
 
-    private static final String ACCESS_TOKEN = "09a10176-7772-4577-8856-1b396f86e83b";
+    private static final String ACCESS_TOKEN = "8891c42b-78ab-4f66-a89f-ae577ce4542b";
     private static final int CATELOG = 1;
     public static final int PER_PAGE = 20;
     public static final int FIRST_PAGE = 1;
