@@ -1,7 +1,5 @@
 package com.maxx.oschinanews.paging;
 
-import android.graphics.Movie;
-
 import androidx.annotation.NonNull;
 import androidx.paging.DataSource;
 

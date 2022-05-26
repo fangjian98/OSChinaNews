@@ -21,4 +21,6 @@ public interface BlogDao {
     @Query("SELECT * FROM blog")
     DataSource.Factory<Integer, Blog> getBlogList();
 
+    @Query("SELECT COUNT(*) FROM blog")
+    int getCount();
 }

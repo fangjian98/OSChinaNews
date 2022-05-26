@@ -42,7 +42,7 @@ public class BlogBoundaryCallback extends PagedList.BoundaryCallback<Blog> {
     private void getTopData() {
         RetrofitClient.getInstance()
                 .getApi()
-                .getBlogs(ACCESS_TOKEN, CATELOG, lastPage++, PER_PAGE)
+                .getBlogs(ACCESS_TOKEN, CATELOG, FIRST_PAGE, PER_PAGE)
                 .enqueue(new Callback<Blogs>() {
                     @Override
                     public void onResponse(Call<Blogs> call, Response<Blogs> response) {
@@ -71,7 +71,7 @@ public class BlogBoundaryCallback extends PagedList.BoundaryCallback<Blog> {
     private void getTopAfterData(Blog blog) {
         RetrofitClient.getInstance()
                 .getApi()
-                .getBlogs(ACCESS_TOKEN, CATELOG, PER_PAGE,PER_PAGE)
+                .getBlogs(ACCESS_TOKEN, CATELOG, lastPage++, PER_PAGE)
                 .enqueue(new Callback<Blogs>() {
                     @Override
                     public void onResponse(Call<Blogs> call, Response<Blogs> response) {
@@ -79,7 +79,7 @@ public class BlogBoundaryCallback extends PagedList.BoundaryCallback<Blog> {
                             //把数据传递给PagedList
                             //callback.onResult(response.body().blogList, params.key + 1);
                             insertBlogs(response.body().blogList);
-                            Log.d("Maxx", "loadAfter: page=" + PER_PAGE + " " + response.body().blogList);
+                            Log.d("Maxx", "loadAfter: page=" + lastPage + " " + response.body().blogList);
                         }
                     }
 

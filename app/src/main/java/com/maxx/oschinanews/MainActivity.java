@@ -1,6 +1,7 @@
 package com.maxx.oschinanews;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
@@ -13,6 +14,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.maxx.oschinanews.model.Blog;
 import com.maxx.oschinanews.paging.BlogPagedListAdapter;
 import com.maxx.oschinanews.paging.BlogViewModel;
+import com.maxx.oschinanews.utils.NetworkUtil;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,7 +41,11 @@ public class MainActivity extends AppCompatActivity {
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                blogViewModel.refresh();
+                if (NetworkUtil.isNetConnected(MainActivity.this)) {
+                    blogViewModel.refresh();
+                } else {
+                    Toast.makeText(MainActivity.this, "无网络连接", Toast.LENGTH_SHORT).show();
+                }
                 swipeRefresh.setRefreshing(false);
             }
         });

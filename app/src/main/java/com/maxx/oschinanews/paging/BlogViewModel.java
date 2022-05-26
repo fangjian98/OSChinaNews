@@ -20,6 +20,7 @@ package com.maxx.oschinanews.paging;
 
 import android.app.Application;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -59,6 +60,10 @@ public class BlogViewModel extends AndroidViewModel {
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
+                int size = MyDataBase.getInstance(getApplication())
+                        .getBlogDao()
+                        .getCount();
+                Log.d("Maxx", "size=" + size);
                 MyDataBase.getInstance(getApplication())
                         .getBlogDao()
                         .clear();
