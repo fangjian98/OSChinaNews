@@ -1,6 +1,8 @@
 package com.maxx.oschinanews.paging;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.maxx.oschinanews.R;
 import com.maxx.oschinanews.model.Blog;
+import com.maxx.oschinanews.utils.Constants;
 
 public class BlogPagedListAdapter extends PagedListAdapter<Blog,BlogPagedListAdapter.BlogViewHolder> {
 
@@ -53,7 +56,23 @@ public class BlogPagedListAdapter extends PagedListAdapter<Blog,BlogPagedListAda
             holder.commentCount.setText(blog.commentCount+"评");
             holder.type.setText(getType(blog.type));
             holder.uri.setText("https://www.oschina.net/news/"+blog.id);
+            holder.uri.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    openHtmlViewer(holder.uri.getText().toString());
+                }
+            });
         }
+    }
+
+    private void openHtmlViewer(String uri) {
+        Intent intent = new Intent(Constants.ACTION_HTML_VIEW, Uri.parse(uri));
+        intent.setClassName("com.maxx.oschinanews", "com.maxx.oschinanews.utils.HtmlViewer");
+        /*Intent intent = new Intent();
+        intent.setAction(Constants.ACTION_HTML_VIEW);
+        intent.setDataAndType(Uri.parse(uri),"text/html");
+        intent.putExtra(Intent.EXTRA_TITLE, uri);*/
+        context.startActivity(intent);
     }
 
     //新闻类型 [0-链接新闻|1-软件推荐|2-讨论区帖子|3-博客|4-普通新闻|7-翻译文章]

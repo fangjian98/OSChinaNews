@@ -44,7 +44,7 @@ public class BlogViewModel extends AndroidViewModel {
         PagedList.Config config = new PagedList.Config.Builder()
                 .setEnablePlaceholders(false)
                 .setPageSize(PER_PAGE)
-                .setPrefetchDistance(3)
+                .setPrefetchDistance(8)
                 .setInitialLoadSizeHint(PER_PAGE)
                 .setMaxSize(65536*PER_PAGE)
                 .build();
