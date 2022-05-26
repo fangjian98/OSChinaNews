@@ -7,3 +7,18 @@ plugins {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+ext {
+    useCertificate = 'platform'
+    signingsDir = 'D:/Users/AndroidProjects/signings'
+    // signing config
+    if (file("${signingsDir}/signings.properties").exists()) {
+        Properties signingsProperties = new Properties()
+        signingsProperties.load(file("${signingsDir}/signings.properties").newDataInputStream())
+
+        storeFile = file("${signingsDir}/${signingsProperties["key.${useCertificate}.store"]}").path
+        storePassword = signingsProperties["key.${useCertificate}.store.password"]
+        keyAlias = signingsProperties["key.${useCertificate}.alias"]
+        keyPassword = signingsProperties["key.${useCertificate}.password"]
+    }
+}

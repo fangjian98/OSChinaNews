@@ -3,6 +3,14 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        release {
+            storeFile file(rootProject.storeFile)
+            storePassword rootProject.storePassword
+            keyAlias rootProject.keyAlias
+            keyPassword rootProject.keyPassword
+        }
+    }
     compileSdk 30
 
     defaultConfig {
@@ -28,24 +36,18 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-    /*signingConfigs {
-        release {
-            storeFile file(rootProject.storeFile)
-            storePassword rootProject.storePassword
-            keyAlias rootProject.keyAlias
-            keyPassword rootProject.keyPassword
-        }
-    }*/
-
+    //Build Variants选择
     buildTypes {
         debug {
-            minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            minifyEnabled false
+            signingConfig signingConfigs.release
         }
 
         release {
-            minifyEnabled false
-            zipAlignEnabled true  // 是否开启zip压缩
+            minifyEnabled false     //是否启动混淆 true:打开   false:关闭  此项目开启混淆程序运行奔溃,可配置proguard-rules.pro
+            zipAlignEnabled false    // 是否开启zip压缩
+            //shrinkResources true        //是否去除无效的资源文件
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
