@@ -25,7 +25,10 @@ public class BlogPagedListAdapter extends PagedListAdapter<Blog,BlogPagedListAda
     private static final DiffUtil.ItemCallback<Blog> DIFF_CALLBACK = new DiffUtil.ItemCallback<Blog>() {
         @Override
         public boolean areItemsTheSame(@NonNull Blog oldItem, @NonNull Blog newItem) {
-            return oldItem == newItem;
+            // RecyclerView闪烁:当调用areItemsTheSame时总是返回false，即使比较的实例代表相同的对象(因为数据库每次更新都会给你新的实例)。
+            // 要解决这个问题，您需要比较的不是它们是否是相同的实例，而是它们是否表示相同的对象。
+            // return oldItem == newItem;
+            return oldItem.id == newItem.id;
         }
 
         @Override
