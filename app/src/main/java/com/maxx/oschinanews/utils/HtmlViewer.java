@@ -26,6 +26,7 @@ import android.provider.Browser;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
@@ -35,11 +36,17 @@ import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 import com.maxx.oschinanews.R;
+import com.maxx.oschinanews.api.RetrofitClient;
+import com.maxx.oschinanews.model.Token;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.util.zip.GZIPInputStream;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Simple activity that shows the requested HTML page. This utility is
@@ -65,6 +72,12 @@ public class HtmlViewer extends Activity {
         mWebView.setWebChromeClient(new ChromeClient());
         //处理网页导航
         mWebView.setWebViewClient(new ViewClient());
+
+        //setInitialScale:初始缩放等级 参数为25表示为25%，最小缩放等级，100代表不缩放
+        mWebView.setInitialScale(100);
+
+        //TODO 1:add addJavascriptInterface
+        mWebView.addJavascriptInterface(new WebAppInterface(), "handler");
 
         //将 JavaScript 代码绑定到 Android 代码:这会为在 WebView 中运行的 JavaScript 创建名为 Android 的接口
         //mWebView.addJavascriptInterface(new WebAppInterface(this), "Android");
@@ -124,6 +137,16 @@ public class HtmlViewer extends Activity {
         loadUrl();
     }
 
+    // TODO 2:add JavascriptInterface
+    class WebAppInterface {
+
+        @JavascriptInterface
+        public void show(String data) { // 这里的data就webview加载的内容，即使页面跳转页都可以获取到，这样就可以做自己的处理了
+            //new AlertDialog.Builder(HtmlViewer.this).setMessage(data).create().show();
+            Log.d("Maxx", "data=" + data);
+        }
+    }
+
     private void loadUrl() {
         if (mIntent.hasExtra(Intent.EXTRA_TITLE)) {
             setTitle(mIntent.getStringExtra(Intent.EXTRA_TITLE));
@@ -172,11 +195,18 @@ public class HtmlViewer extends Activity {
                 HtmlViewer.this.setTitle(title);
             }
         }
+
+        @Override
+        public void onProgressChanged(WebView view, int newProgress) {
+            super.onProgressChanged(view, newProgress);
+        }
     }
 
     private class ViewClient extends WebViewClient {
         @Override
         public void onPageFinished(WebView view, String url) {
+            //TODO 3:add javascript to use JavascriptInterface
+            //mWebView.loadUrl("javascript:window.handler.show(document.getElementsByTagName('pre')[0].innerHTML);");
             mLoading.setVisibility(View.GONE);
         }
 
@@ -184,6 +214,35 @@ public class HtmlViewer extends Activity {
         public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
             if ("www.oschina.net".equals(request.getUrl().getHost())) {
                 // This is my website, so do not override; let my WebView load the page
+                return false;
+            }
+
+            // 获取OSChina Token
+            // http://192.168.0.106/?code=iap9LL&state=
+            String originUrl = request.getUrl().toString();
+            if (originUrl.startsWith("http://192.168.0.106")) {
+                String getCode = originUrl.substring(originUrl.indexOf("code=")).substring(5, 11);
+                Log.d("Maxx", "getCode=" + getCode);
+                //String BASE_TOKEN_URL = "https://www.oschina.net/action/openapi/token?client_id=GCqPUbrIaoe7nUScRlet&client_secret=YFJDhiYsnyI6qW8nzdAHYIPocZsPEff1&grant_type=authorization_code&redirect_uri=http://192.168.0.106/&dataType=json&code=";
+                //mWebView.loadUrl(BASE_TOKEN_URL+getCode);
+
+                RetrofitClient.getInstance()
+                        .getApi()
+                        .getToken(Constants.OSCHINA_CLIENT_ID, Constants.OSCHINA_CLIENT_SECRET, "authorization_code", Constants.OSCHINA_REDIRECT_URL, getCode)
+                        .enqueue(new Callback<Token>() {
+                            @Override
+                            public void onResponse(Call<Token> call, Response<Token> response) {
+                                Log.d("Maxx", response.body().toString());
+                                NetworkUtil.setToken(HtmlViewer.this, response.body().access_token);
+                                Toast.makeText(HtmlViewer.this, "Get Token Success!", Toast.LENGTH_SHORT).show();
+                                finish();
+                            }
+
+                            @Override
+                            public void onFailure(Call<Token> call, Throwable t) {
+
+                            }
+                        });
                 return false;
             }
 

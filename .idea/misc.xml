@@ -4,10 +4,12 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/AndroidProjects/OSChinaNews/app/src/main/res/drawable/flow_button_bg.xml" value="0.195" />
+        <entry key="..\:/Users/AndroidProjects/OSChinaNews/app/src/main/res/drawable/ic_get_token.xml" value="0.1925" />
         <entry key="..\:/Users/AndroidProjects/OSChinaNews/app/src/main/res/drawable/item_shape.xml" value="0.1315" />
         <entry key="..\:/Users/AndroidProjects/OSChinaNews/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/Users/AndroidProjects/OSChinaNews/app/src/main/res/layout/activity_viewer.xml" value="0.264" />
         <entry key="..\:/Users/AndroidProjects/OSChinaNews/app/src/main/res/layout/item.xml" value="0.2" />
+        <entry key="..\:/Users/AndroidProjects/OSChinaNews/app/src/main/res/menu/menu_main.xml" value="0.25364583333333335" />
       </map>
     </option>
   </component>

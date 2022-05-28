@@ -11,6 +11,7 @@ import com.maxx.oschinanews.api.RetrofitClient;
 import com.maxx.oschinanews.db.MyDataBase;
 import com.maxx.oschinanews.model.Blog;
 import com.maxx.oschinanews.model.Blogs;
+import com.maxx.oschinanews.utils.NetworkUtil;
 
 import java.util.List;
 
@@ -20,15 +21,17 @@ import retrofit2.Response;
 
 public class BlogBoundaryCallback extends PagedList.BoundaryCallback<Blog> {
 
-    private static final String ACCESS_TOKEN = "8891c42b-78ab-4f66-a89f-ae577ce4542b";
     private static final int CATELOG = 2;
     public static final int PER_PAGE = 20;
     public static final int FIRST_PAGE = 1;
     private Application application;
+    private String accessToken;
     private int lastPage;
 
     public BlogBoundaryCallback(Application application){
         this.application = application;
+        this.accessToken = NetworkUtil.getToken(application);
+        Log.d("Maxx", "accessToken=" + accessToken);
     }
 
     //加载第一页数据
@@ -42,7 +45,7 @@ public class BlogBoundaryCallback extends PagedList.BoundaryCallback<Blog> {
     private void getTopData() {
         RetrofitClient.getInstance()
                 .getApi()
-                .getBlogs(ACCESS_TOKEN, CATELOG, FIRST_PAGE, PER_PAGE)
+                .getBlogs(accessToken, CATELOG, FIRST_PAGE, PER_PAGE)
                 .enqueue(new Callback<Blogs>() {
                     @Override
                     public void onResponse(Call<Blogs> call, Response<Blogs> response) {
@@ -71,7 +74,7 @@ public class BlogBoundaryCallback extends PagedList.BoundaryCallback<Blog> {
     private void getTopAfterData(Blog blog) {
         RetrofitClient.getInstance()
                 .getApi()
-                .getBlogs(ACCESS_TOKEN, CATELOG, lastPage++, PER_PAGE)
+                .getBlogs(accessToken, CATELOG, lastPage++, PER_PAGE)
                 .enqueue(new Callback<Blogs>() {
                     @Override
                     public void onResponse(Call<Blogs> call, Response<Blogs> response) {

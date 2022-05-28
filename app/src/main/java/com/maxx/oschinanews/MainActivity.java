@@ -1,8 +1,11 @@
 package com.maxx.oschinanews;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -49,5 +52,25 @@ public class MainActivity extends AppCompatActivity {
                 swipeRefresh.setRefreshing(false);
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.token:
+                String GET_CODE_URL = "https://www.oschina.net/action/oauth2/authorize?response_type=code&client_id=GCqPUbrIaoe7nUScRlet&redirect_uri=http://192.168.0.106/";
+                NetworkUtil.openHtmlViewer(this,GET_CODE_URL);
+                break;
+            default:
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }
