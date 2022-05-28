@@ -63,21 +63,52 @@ public class HtmlViewer extends Activity {
         mLoading = findViewById(R.id.loading);
 
         mWebView.setWebChromeClient(new ChromeClient());
+        //处理网页导航
         mWebView.setWebViewClient(new ViewClient());
+
+        //将 JavaScript 代码绑定到 Android 代码:这会为在 WebView 中运行的 JavaScript 创建名为 Android 的接口
+        //mWebView.addJavascriptInterface(new WebAppInterface(this), "Android");
+        /*public class WebAppInterface {
+            Context mContext;
+
+            *//** Instantiate the interface and set the context *//*
+            WebAppInterface(Context c) {
+                mContext = c;
+            }
+
+            *//** Show a toast from the web page *//*
+            @JavascriptInterface
+            public void showToast(String toast) {
+                Toast.makeText(mContext, toast, Toast.LENGTH_SHORT).show();
+            }
+        }*/
 
         WebSettings s = mWebView.getSettings();
         s.setUseWideViewPort(true);
         s.setSupportZoom(true);
         s.setBuiltInZoomControls(true);
         s.setDisplayZoomControls(false);
-        s.setSavePassword(false);
-        s.setSaveFormData(false);
+
+        //Deprecated Usages
+        //s.setSavePassword(false);
+        //s.setSaveFormData(false);
+
         // solved net::ERR_CACHE_MISS
         //s.setBlockNetworkLoads(true);
         s.setAllowFileAccess(true);
 
-        //s.setAppCacheEnabled(true);
+        //开启AppCache支持:WebSettings的setAppCacheEnabled和setAppCachePath都必须要调用才行
+        s.setAppCacheEnabled(true);
+        // 把内部私有缓存目录'/data/data/包名/cache/'作为WebView的AppCache的存储路径
+        String cachePath = getApplicationContext().getCacheDir().getPath();
+        s.setAppCachePath(cachePath);
+
+        // 如果您正在开发专为 Android 应用中的 WebView 设计的 Web 应用，则可以使用
+        // setUserAgentString定义自定义用户代理字符串，然后在网页中查询自定义用户代理，以验证请求网页的客户端实际上是您的 Android 应用
+        //s.setUserAgentString("");
+
         //s.setAllowContentAccess(true);
+
         // default:WebSettings.LOAD_DEFAULT
         // LOAD_DEFAULT优先从缓存获取未过期的资源加载，否则从网络加载资源
         // LOAD_CACHE_ELSE_NETWORK优先从缓存获取资源加载，即使缓存已过期，否则从网络加载资源
@@ -104,6 +135,18 @@ public class HtmlViewer extends Activity {
     private void setBackButton() {
         if (getActionBar() != null) {
             getActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+    }
+
+    public void toBackPage(View view) {
+        if (mWebView.canGoBack()) {
+            mWebView.goBack();
+        }
+    }
+
+    public void toForwardPage(View view) {
+        if (mWebView.canGoForward()) {
+            mWebView.goForward();
         }
     }
 
@@ -139,16 +182,19 @@ public class HtmlViewer extends Activity {
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-
-            String url = request.getUrl().toString();
+            if ("www.oschina.net".equals(request.getUrl().getHost())) {
+                // This is my website, so do not override; let my WebView load the page
+                return false;
+            }
 
             // 重写此方法表明点击网页里面的链接还是在当前的webview里跳转，不跳到浏览器那边
-            boolean isOpenWebViewer = url.startsWith("https://www.oschina.net");
+            /*boolean isOpenWebViewer = request.getUrl().toString().startsWith("https://www.oschina.net");
             if (isOpenWebViewer) {
                 mWebView.loadUrl(request.getUrl().toString());
                 return true;
-            }
+            }*/
 
+            String url = request.getUrl().toString();
             Intent intent;
             // Perform generic parsing of the URI to turn it into an Intent.
             try {

@@ -3,9 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/AndroidProjects/OSChinaNews/app/src/main/res/drawable/flow_button_bg.xml" value="0.195" />
         <entry key="..\:/Users/AndroidProjects/OSChinaNews/app/src/main/res/drawable/item_shape.xml" value="0.1315" />
         <entry key="..\:/Users/AndroidProjects/OSChinaNews/app/src/main/res/layout/activity_main.xml" value="0.1" />
-        <entry key="..\:/Users/AndroidProjects/OSChinaNews/app/src/main/res/layout/activity_viewer.xml" value="0.1125" />
+        <entry key="..\:/Users/AndroidProjects/OSChinaNews/app/src/main/res/layout/activity_viewer.xml" value="0.264" />
         <entry key="..\:/Users/AndroidProjects/OSChinaNews/app/src/main/res/layout/item.xml" value="0.2" />
       </map>
     </option>
