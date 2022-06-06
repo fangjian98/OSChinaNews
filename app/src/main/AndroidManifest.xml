@@ -14,7 +14,7 @@
         android:theme="@style/Theme.OSChinaNews"
         android:networkSecurityConfig="@xml/network_security_config">
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,7 +24,7 @@
         </activity>
 
         <activity android:name="com.maxx.oschinanews.utils.HtmlViewer"
-            android:parentActivityName="com.maxx.oschinanews.MainActivity"
+            android:parentActivityName="com.maxx.oschinanews.ui.MainActivity"
             android:theme="@android:style/Theme.DeviceDefault.Settings">
             <intent-filter>
                 <action android:name="com.maxx.intent.action.oschinanews.VIEW" />

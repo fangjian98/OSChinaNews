@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">开源新闻</string>
+    <string name="title_home">首页</string>
+    <string name="title_dashboard">发现</string>
+    <string name="title_user">我的</string>
 
     <string name="cannot_open_link">没有应用程序可以打开此链接。</string>
 </resources>

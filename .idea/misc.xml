@@ -10,6 +10,16 @@
         <entry key="..\:/Users/AndroidProjects/OSChinaNews/app/src/main/res/layout/activity_viewer.xml" value="0.264" />
         <entry key="..\:/Users/AndroidProjects/OSChinaNews/app/src/main/res/layout/item.xml" value="0.2" />
         <entry key="..\:/Users/AndroidProjects/OSChinaNews/app/src/main/res/menu/menu_main.xml" value="0.25364583333333335" />
+        <entry key="app/src/main/res/drawable/flow_button_bg.xml" value="0.178" />
+        <entry key="app/src/main/res/drawable/ic_dashboard_black.xml" value="0.178" />
+        <entry key="app/src/main/res/drawable/ic_home_black.xml" value="0.178" />
+        <entry key="app/src/main/res/drawable/ic_user_black.xml" value="0.178" />
+        <entry key="app/src/main/res/drawable/item_shape.xml" value="0.178" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_dashboard.xml" value="0.3609375" />
+        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.2" />
+        <entry key="app/src/main/res/layout/fragment_notifications.xml" value="0.3609375" />
+        <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.3609375" />
       </map>
     </option>
   </component>
