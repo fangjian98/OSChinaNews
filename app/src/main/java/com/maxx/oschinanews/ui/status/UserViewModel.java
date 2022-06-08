@@ -1,19 +1,36 @@
 package com.maxx.oschinanews.ui.status;
 
+import androidx.databinding.BaseObservable;
+import androidx.databinding.Bindable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class UserViewModel extends ViewModel {
+import com.maxx.oschinanews.BR;
+import com.maxx.oschinanews.model.User;
 
-    private final MutableLiveData<String> mText;
+public class UserViewModel extends BaseObservable {
 
-    public UserViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is notifications fragment");
+    private User user;
+
+    public UserViewModel(){
+        this.user = new User();
+        user.name = "注册/登录";
     }
 
-    public LiveData<String> getText() {
-        return mText;
+    public UserViewModel(User user) {
+        this.user = user;
+    }
+
+    @Bindable
+    public User getUser(){
+        return user;
+    }
+
+    public void setUser(User me) {
+        if (me != null && !(me.id).equals(user.id)) {
+            user= me;
+            notifyPropertyChanged(BR.user);
+        }
     }
 }

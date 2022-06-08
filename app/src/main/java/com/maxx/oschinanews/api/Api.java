@@ -2,6 +2,7 @@ package com.maxx.oschinanews.api;
 
 import com.maxx.oschinanews.model.Blogs;
 import com.maxx.oschinanews.model.Token;
+import com.maxx.oschinanews.model.User;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -25,5 +26,10 @@ public interface Api {
             @Query("grant_type") String grantType,
             @Query("redirect_uri") String redirectUri,
             @Query("code") String code
+    );
+
+    @GET("/action/openapi/user")
+    Call<User> getUser(
+            @Query("access_token")  String token
     );
 }
